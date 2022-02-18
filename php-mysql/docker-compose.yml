@@ -1,0 +1,26 @@
+version: "3.7"
+services: 
+    web:
+        build: .
+        container_name: web
+        ports: 
+            - 8080:80
+        volumes: 
+            - ${PROJECT_ROOT}:/var/www/html
+        links: 
+            - mysql:mysql
+    mysql:
+        image: mysql:${MYSQL_VERSION}
+        container_name: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment: 
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports: 
+            - 3307:3306
+        volumes: 
+            - ${VOLUMES_MYSQL}:/var/lib/mysql    
+        
